@@ -4,6 +4,8 @@ server:
 spring:
   profiles:
     active: @profiles.active@
+  jackson:
+    default-property-inclusion: non_null
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
 
