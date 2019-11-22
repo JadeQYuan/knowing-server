@@ -25,4 +25,11 @@ public interface INoteService {
      * @return
      */
     NoteVO get(Long id);
+
+    /**
+     * 更新笔记
+     * @param id
+     * @param noteVO
+     */
+    void update(Long id, NoteVO noteVO);
 }

@@ -10,6 +10,7 @@ import plus.knowing.service.INoteService;
 import plus.knowing.vo.NoteVO;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,5 +41,25 @@ public class NoteService implements INoteService {
     public NoteVO get(Long id) {
         Note note = noteDao.selectById(id);
         return new NoteVO(note);
+    }
+
+    @Override
+    public void update(Long id, NoteVO noteVO) {
+        Note note = noteDao.selectById(id);
+        if (Objects.isNull(note)) {
+            return;
+        }
+        boolean flag = false;
+        if (!Objects.equals(note.getTitle(), noteVO.getTitle())) {
+            note.setTitle(noteVO.getTitle());
+            flag = true;
+        }
+        if (!Objects.equals(note.getContent(), noteVO.getContent())) {
+            note.setContent(noteVO.getContent());
+            flag = true;
+        }
+        if (flag) {
+            noteDao.updateById(note);
+        }
     }
 }

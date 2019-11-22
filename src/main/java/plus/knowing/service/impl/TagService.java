@@ -42,4 +42,24 @@ public class TagService implements ITagService {
         Tag tag = tagDao.selectById(id);
         return Objects.isNull(tag) ? null : new TagVO(tag);
     }
+
+    @Override
+    public void update(Long id, TagVO tagVO) {
+        Tag tag = tagDao.selectById(id);
+        if (Objects.isNull(tag)) {
+            return;
+        }
+        boolean flag = false;
+        if (!Objects.equals(tag.getName(), tagVO.getName())) {
+            tag.setName(tagVO.getName());
+            flag = true;
+        }
+        if (!Objects.equals(tag.getDescription(), tagVO.getDescription())) {
+            tag.setDescription(tagVO.getDescription());
+            flag = true;
+        }
+        if (flag) {
+            tagDao.updateById(tag);
+        }
+    }
 }

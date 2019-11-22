@@ -25,4 +25,11 @@ public interface ITagService {
      * @return
      */
     TagVO get(Long id);
+
+    /**
+     * 更新标签信息
+     * @param id
+     * @param tagVO
+     */
+    void update(Long id, TagVO tagVO);
 }

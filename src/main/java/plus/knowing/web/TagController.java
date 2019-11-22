@@ -24,4 +24,14 @@ public class TagController {
     public List<TagVO> listTags(TagVO tagVO) {
         return iTagService.listTags(tagVO);
     }
+
+    @GetMapping(path = "/{id}")
+    public TagVO getTagInfo(@PathVariable Long id) {
+        return iTagService.get(id);
+    }
+
+    @PutMapping(path = "/{id}")
+    public void update(@PathVariable Long id, @RequestBody @Validated TagVO tagVO) {
+        iTagService.update(id, tagVO);
+    }
 }

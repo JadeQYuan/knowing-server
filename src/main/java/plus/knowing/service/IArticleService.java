@@ -26,4 +26,11 @@ public interface IArticleService {
      * @return
      */
     ArticleVO get(Long id);
+
+    /**
+     * 更新文章
+     * @param id
+     * @param articleVO
+     */
+    void update(Long id, ArticleVO articleVO);
 }

@@ -29,4 +29,9 @@ public class NoteController {
     public NoteVO getInfo(@PathVariable Long id) {
         return iNoteService.get(id);
     }
+
+    @PutMapping(path = "/{id}")
+    public void update(@PathVariable Long id, @RequestBody @Validated NoteVO noteVO) {
+        iNoteService.update(id, noteVO);
+    }
 }

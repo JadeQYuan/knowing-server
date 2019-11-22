@@ -29,4 +29,9 @@ public class ArticleController {
     public ArticleVO getInfo(@PathVariable Long id) {
         return iArticleService.get(id);
     }
+
+    @PutMapping(path = "/{id}")
+    public void update(@PathVariable Long id, @RequestBody @Validated ArticleVO articleVO) {
+        iArticleService.update(id, articleVO);
+    }
 }

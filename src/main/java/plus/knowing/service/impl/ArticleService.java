@@ -70,4 +70,24 @@ public class ArticleService implements IArticleService {
         articleVO.setTags(tags);
         return articleVO;
     }
+
+    @Override
+    public void update(Long id, ArticleVO articleVO) {
+        Article article = articleDao.selectById(id);
+        if (Objects.isNull(article)) {
+            return;
+        }
+        boolean flag = false;
+        if (!Objects.equals(article.getTitle(), articleVO.getTitle())) {
+            article.setTitle(articleVO.getTitle());
+            flag = true;
+        }
+        if (!Objects.equals(article.getContent(), articleVO.getContent())) {
+            article.setContent(articleVO.getContent());
+            flag = true;
+        }
+        if (flag) {
+            articleDao.updateById(article);
+        }
+    }
 }
