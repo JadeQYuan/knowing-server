@@ -1,5 +1,7 @@
 package plus.knowing.service;
 
+import plus.knowing.vo.PageVO;
+import plus.knowing.vo.TagQueryVO;
 import plus.knowing.vo.TagVO;
 
 import java.util.List;
@@ -18,6 +20,13 @@ public interface ITagService {
      * @return
      */
     List<TagVO> listTags(TagVO tagVO);
+
+    /**
+     * 分页查询标签列表
+     * @param queryVO
+     * @return
+     */
+    PageVO<TagVO> pagingListTags(TagQueryVO queryVO);
 
     /**
      * 获取标签信息

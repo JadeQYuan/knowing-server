@@ -1,6 +1,8 @@
 package plus.knowing.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,7 +13,9 @@ import plus.knowing.entity.Article;
 import plus.knowing.entity.ArticleTags;
 import plus.knowing.service.IArticleService;
 import plus.knowing.service.ITagService;
+import plus.knowing.vo.ArticleQueryVO;
 import plus.knowing.vo.ArticleVO;
+import plus.knowing.vo.PageVO;
 import plus.knowing.vo.TagVO;
 
 import java.util.List;
@@ -60,6 +64,23 @@ public class ArticleService implements IArticleService {
         });
         return articleVOList;
     }
+
+    @Override
+    public PageVO<ArticleVO> pagingListTags(ArticleQueryVO queryVO) {
+        QueryWrapper<Article> tagQueryWrapper = new QueryWrapper<>();
+        if (StringUtils.hasText(queryVO.getTitle())) {
+            tagQueryWrapper.like("title", queryVO.getTitle());
+        }
+        IPage<Article> page = articleDao.selectPage(new Page<>(queryVO.getPageNum(), queryVO.getPageSize()), tagQueryWrapper);
+        List<ArticleVO> voList = page.getRecords().stream().map(ArticleVO::new).collect(Collectors.toList());
+        voList.forEach(vo -> {
+            List<ArticleTags> articleTagsList = articleTagsDao.selectList(new QueryWrapper<ArticleTags>().eq("article_id", vo.getId()));
+            List<TagVO> tags = articleTagsList.stream().map(articleTags -> iTagService.get(articleTags.getTagId())).collect(Collectors.toList());
+            vo.setTags(tags);
+        });
+        return new PageVO<>(page, voList);
+    }
+
 
     @Override
     public ArticleVO get(Long id) {

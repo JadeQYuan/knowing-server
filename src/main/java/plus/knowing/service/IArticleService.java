@@ -1,6 +1,8 @@
 package plus.knowing.service;
 
+import plus.knowing.vo.ArticleQueryVO;
 import plus.knowing.vo.ArticleVO;
+import plus.knowing.vo.PageVO;
 import plus.knowing.vo.TagVO;
 
 import java.util.List;
@@ -19,6 +21,13 @@ public interface IArticleService {
      * @return
      */
     List<ArticleVO> listArticles(ArticleVO articleVO);
+
+    /**
+     * 分页查询笔记
+     * @param queryVO
+     * @return
+     */
+    PageVO<ArticleVO> pagingListTags(ArticleQueryVO queryVO);
 
     /**
      * 获取文章

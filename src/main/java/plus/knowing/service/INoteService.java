@@ -1,6 +1,8 @@
 package plus.knowing.service;
 
+import plus.knowing.vo.NoteQueryVO;
 import plus.knowing.vo.NoteVO;
+import plus.knowing.vo.PageVO;
 
 import java.util.List;
 
@@ -18,6 +20,13 @@ public interface INoteService {
      * @return
      */
     List<NoteVO> listNotes(NoteVO noteVO);
+
+    /**
+     * 分页查询笔记
+     * @param queryVO
+     * @return
+     */
+    PageVO<NoteVO> pagingListTags(NoteQueryVO queryVO);
 
     /**
      * 获取笔记

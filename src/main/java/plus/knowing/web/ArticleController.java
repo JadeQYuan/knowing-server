@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import plus.knowing.service.IArticleService;
+import plus.knowing.vo.ArticleQueryVO;
 import plus.knowing.vo.ArticleVO;
+import plus.knowing.vo.PageVO;
 
 import java.util.List;
 
@@ -23,6 +25,11 @@ public class ArticleController {
     @GetMapping(path = "")
     public List<ArticleVO> listArticles(ArticleVO articleVO) {
         return iArticleService.listArticles(articleVO);
+    }
+
+    @GetMapping(path = "/paging")
+    public PageVO<ArticleVO> pagingListTags(ArticleQueryVO queryVO) {
+        return iArticleService.pagingListTags(queryVO);
     }
 
     @GetMapping(path = "/{id}")

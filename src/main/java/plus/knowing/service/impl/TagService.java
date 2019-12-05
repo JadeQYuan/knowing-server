@@ -1,12 +1,16 @@
 package plus.knowing.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import plus.knowing.dao.TagDao;
 import plus.knowing.entity.Tag;
 import plus.knowing.service.ITagService;
+import plus.knowing.vo.PageVO;
+import plus.knowing.vo.TagQueryVO;
 import plus.knowing.vo.TagVO;
 
 import java.util.List;
@@ -35,6 +39,17 @@ public class TagService implements ITagService {
         }
         List<Tag> tagList = tagDao.selectList(tagQueryWrapper);
         return tagList.stream().map(TagVO::new).collect(Collectors.toList());
+    }
+
+    @Override
+    public PageVO<TagVO> pagingListTags(TagQueryVO queryVO) {
+        QueryWrapper<Tag> tagQueryWrapper = new QueryWrapper<>();
+        if (StringUtils.hasText(queryVO.getName())) {
+            tagQueryWrapper.like("name", queryVO.getName());
+        }
+        IPage<Tag> page = tagDao.selectPage(new Page<>(queryVO.getPageNum(), queryVO.getPageSize()), tagQueryWrapper);
+        List<TagVO> voList = page.getRecords().stream().map(TagVO::new).collect(Collectors.toList());
+        return new PageVO<>(page, voList);
     }
 
     @Override
