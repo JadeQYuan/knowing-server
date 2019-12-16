@@ -27,7 +27,7 @@ logging:
 spring:
   profiles: prod
   datasource:
-    url: jdbc:mysql://172.16.31.101:3306/knowing?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://172.18.113.57:3306/knowing?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
     username: root
     password: root
 logging:
