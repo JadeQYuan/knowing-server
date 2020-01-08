@@ -6,8 +6,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import plus.knowing.dao.NoteDao;
-import plus.knowing.entity.Note;
+import plus.knowing.dao.BlogNoteDao;
+import plus.knowing.entity.BlogNote;
 import plus.knowing.service.INoteService;
 import plus.knowing.vo.NoteQueryVO;
 import plus.knowing.vo.NoteVO;
@@ -21,46 +21,46 @@ import java.util.stream.Collectors;
 public class NoteService implements INoteService {
 
     @Autowired
-    private NoteDao noteDao;
+    private BlogNoteDao blogNoteDao;
 
     @Override
     public void addNote(NoteVO noteVO) {
-        Note note = new Note();
+        BlogNote note = new BlogNote();
         note.setTitle(noteVO.getTitle());
         note.setContent(noteVO.getContent());
-        noteDao.insert(note);
+        blogNoteDao.insert(note);
     }
 
     @Override
     public List<NoteVO> listNotes(NoteVO noteVO) {
-        QueryWrapper<Note> noteQueryWrapper = new QueryWrapper<>();
+        QueryWrapper<BlogNote> noteQueryWrapper = new QueryWrapper<>();
         if (StringUtils.hasText(noteVO.getTitle())) {
             noteQueryWrapper.like("title", noteVO.getTitle());
         }
-        List<Note> noteList = noteDao.selectList(noteQueryWrapper);
+        List<BlogNote> noteList = blogNoteDao.selectList(noteQueryWrapper);
         return noteList.stream().map(NoteVO::new).collect(Collectors.toList());
     }
 
     @Override
     public PageVO<NoteVO> pagingListTags(NoteQueryVO queryVO) {
-        QueryWrapper<Note> tagQueryWrapper = new QueryWrapper<>();
+        QueryWrapper<BlogNote> tagQueryWrapper = new QueryWrapper<>();
         if (StringUtils.hasText(queryVO.getTitle())) {
             tagQueryWrapper.like("title", queryVO.getTitle());
         }
-        IPage<Note> page = noteDao.selectPage(new Page<>(queryVO.getPageNum(), queryVO.getPageSize()), tagQueryWrapper);
+        IPage<BlogNote> page = blogNoteDao.selectPage(new Page<>(queryVO.getPageNum(), queryVO.getPageSize()), tagQueryWrapper);
         List<NoteVO> voList = page.getRecords().stream().map(NoteVO::new).collect(Collectors.toList());
         return new PageVO<>(page, voList);
     }
 
     @Override
     public NoteVO get(Long id) {
-        Note note = noteDao.selectById(id);
+        BlogNote note = blogNoteDao.selectById(id);
         return new NoteVO(note);
     }
 
     @Override
     public void update(Long id, NoteVO noteVO) {
-        Note note = noteDao.selectById(id);
+        BlogNote note = blogNoteDao.selectById(id);
         if (Objects.isNull(note)) {
             return;
         }
@@ -74,7 +74,7 @@ public class NoteService implements INoteService {
             flag = true;
         }
         if (flag) {
-            noteDao.updateById(note);
+            blogNoteDao.updateById(note);
         }
     }
 }

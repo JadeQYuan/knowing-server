@@ -7,10 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-import plus.knowing.dao.ArticleDao;
-import plus.knowing.dao.ArticleTagsDao;
-import plus.knowing.entity.Article;
-import plus.knowing.entity.ArticleTags;
+import plus.knowing.dao.BlogArticleDao;
+import plus.knowing.dao.BlogArticleTagsDao;
+import plus.knowing.entity.BlogArticle;
+import plus.knowing.entity.BlogArticleTags;
 import plus.knowing.service.IArticleService;
 import plus.knowing.service.ITagService;
 import plus.knowing.vo.ArticleQueryVO;
@@ -26,10 +26,10 @@ import java.util.stream.Collectors;
 public class ArticleService implements IArticleService {
 
     @Autowired
-    private ArticleDao articleDao;
+    private BlogArticleDao blogArticleDao;
 
     @Autowired
-    private ArticleTagsDao articleTagsDao;
+    private BlogArticleTagsDao blogArticleTagsDao;
 
     @Autowired
     private ITagService iTagService;
@@ -37,28 +37,28 @@ public class ArticleService implements IArticleService {
     @Override
     @Transactional
     public void addArticle(ArticleVO articleVO) {
-        Article article = new Article();
+        BlogArticle article = new BlogArticle();
         article.setTitle(articleVO.getTitle());
         article.setContent(articleVO.getContent());
-        articleDao.insert(article);
+        blogArticleDao.insert(article);
         articleVO.getTags().forEach(tagVO -> {
-            ArticleTags articleTags = new ArticleTags();
+            BlogArticleTags articleTags = new BlogArticleTags();
             articleTags.setArticleId(article.getId());
             articleTags.setTagId(tagVO.getId());
-            articleTagsDao.insert(articleTags);
+            blogArticleTagsDao.insert(articleTags);
         });
     }
 
     @Override
     public List<ArticleVO> listArticles(ArticleVO articleVO) {
-        QueryWrapper<Article> articleQueryWrapper = new QueryWrapper<>();
+        QueryWrapper<BlogArticle> articleQueryWrapper = new QueryWrapper<>();
         if (StringUtils.hasText(articleVO.getTitle())) {
             articleQueryWrapper.like("title", articleVO.getTitle());
         }
-        List<Article> articleList = articleDao.selectList(articleQueryWrapper);
+        List<BlogArticle> articleList = blogArticleDao.selectList(articleQueryWrapper);
         List<ArticleVO> articleVOList = articleList.stream().map(ArticleVO::new).collect(Collectors.toList());
         articleVOList.forEach(vo -> {
-            List<ArticleTags> articleTagsList = articleTagsDao.selectList(new QueryWrapper<ArticleTags>().eq("article_id", vo.getId()));
+            List<BlogArticleTags> articleTagsList = blogArticleTagsDao.selectList(new QueryWrapper<BlogArticleTags>().eq("article_id", vo.getId()));
             List<TagVO> tags = articleTagsList.stream().map(articleTags -> iTagService.get(articleTags.getTagId())).collect(Collectors.toList());
             vo.setTags(tags);
         });
@@ -67,14 +67,14 @@ public class ArticleService implements IArticleService {
 
     @Override
     public PageVO<ArticleVO> pagingListTags(ArticleQueryVO queryVO) {
-        QueryWrapper<Article> tagQueryWrapper = new QueryWrapper<>();
+        QueryWrapper<BlogArticle> tagQueryWrapper = new QueryWrapper<>();
         if (StringUtils.hasText(queryVO.getTitle())) {
             tagQueryWrapper.like("title", queryVO.getTitle());
         }
-        IPage<Article> page = articleDao.selectPage(new Page<>(queryVO.getPageNum(), queryVO.getPageSize()), tagQueryWrapper);
+        IPage<BlogArticle> page = blogArticleDao.selectPage(new Page<>(queryVO.getPageNum(), queryVO.getPageSize()), tagQueryWrapper);
         List<ArticleVO> voList = page.getRecords().stream().map(ArticleVO::new).collect(Collectors.toList());
         voList.forEach(vo -> {
-            List<ArticleTags> articleTagsList = articleTagsDao.selectList(new QueryWrapper<ArticleTags>().eq("article_id", vo.getId()));
+            List<BlogArticleTags> articleTagsList = blogArticleTagsDao.selectList(new QueryWrapper<BlogArticleTags>().eq("article_id", vo.getId()));
             List<TagVO> tags = articleTagsList.stream().map(articleTags -> iTagService.get(articleTags.getTagId())).collect(Collectors.toList());
             vo.setTags(tags);
         });
@@ -84,9 +84,9 @@ public class ArticleService implements IArticleService {
 
     @Override
     public ArticleVO get(Long id) {
-        Article article = articleDao.selectById(id);
+        BlogArticle article = blogArticleDao.selectById(id);
         ArticleVO articleVO = new ArticleVO(article);
-        List<ArticleTags> articleTagsList = articleTagsDao.selectList(new QueryWrapper<ArticleTags>().eq("article_id", id));
+        List<BlogArticleTags> articleTagsList = blogArticleTagsDao.selectList(new QueryWrapper<BlogArticleTags>().eq("article_id", id));
         List<TagVO> tags = articleTagsList.stream().map(articleTags -> iTagService.get(articleTags.getTagId())).collect(Collectors.toList());
         articleVO.setTags(tags);
         return articleVO;
@@ -94,7 +94,7 @@ public class ArticleService implements IArticleService {
 
     @Override
     public void update(Long id, ArticleVO articleVO) {
-        Article article = articleDao.selectById(id);
+        BlogArticle article = blogArticleDao.selectById(id);
         if (Objects.isNull(article)) {
             return;
         }
@@ -108,7 +108,7 @@ public class ArticleService implements IArticleService {
             flag = true;
         }
         if (flag) {
-            articleDao.updateById(article);
+            blogArticleDao.updateById(article);
         }
     }
 }

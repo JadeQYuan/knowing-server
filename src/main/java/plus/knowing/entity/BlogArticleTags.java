@@ -5,8 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 @Data
-@TableName(value = "article_tag")
-public class ArticleTags {
+@TableName(value = "blog_article_tag")
+public class BlogArticleTags {
 
     @TableField(value = "article_id")
     private Long articleId;
