@@ -1,4 +1,4 @@
-package plus.knowing.web;
+package plus.knowing.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
