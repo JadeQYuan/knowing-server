@@ -1,20 +1,21 @@
 package plus.knowing.service;
 
-import javax.servlet.http.HttpServletRequest;
+import plus.knowing.constant.AuthPlateFormEnum;
+import plus.knowing.vo.auth.AuthVO;
 
 public interface IAuthService {
 
     /**
-     * 获取QQ登录url
+     * 获取登录url
+     * @param authPlateForm
      * @return
-     * @param request
      */
-    String getQQLoginUrl(HttpServletRequest request);
+    String getLoginUrl(AuthPlateFormEnum authPlateForm);
 
     /**
-     * QQ登录
-     * @param code
-     * @param state
+     * 登录
+     * @param authVO
+     * @return
      */
-    void qqLogin(String code, String state);
+    String login(AuthVO authVO);
 }

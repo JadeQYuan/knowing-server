@@ -1,13 +1,11 @@
 package plus.knowing.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import plus.knowing.constant.AuthPlateFormEnum;
 import plus.knowing.service.IAuthService;
-
-import javax.servlet.http.HttpServletRequest;
+import plus.knowing.vo.auth.AuthVO;
 
 @RestController
 @RequestMapping(path = "/auth")
@@ -16,13 +14,13 @@ public class AuthController {
     @Autowired
     private IAuthService iAuthService;
 
-    @GetMapping(path = "/qq")
-    public String getQQLoginUrl(HttpServletRequest request) {
-        return iAuthService.getQQLoginUrl(request);
+    @GetMapping(path = "/{authPlateForm}")
+    public String getLoginUrl(@PathVariable AuthPlateFormEnum authPlateForm) {
+        return iAuthService.getLoginUrl(authPlateForm);
     }
 
-    @PostMapping(path = "qq")
-    public void qqLogin(String code, String state) {
-        iAuthService.qqLogin(code, state);
+    @PostMapping(path = "")
+    public void login(@Validated @RequestBody AuthVO authVO) {
+        iAuthService.login(authVO);
     }
 }
