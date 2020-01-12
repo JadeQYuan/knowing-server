@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import plus.knowing.entity.Note;
+import plus.knowing.entity.BlogNote;
 
 import javax.validation.constraints.NotBlank;
 
@@ -23,7 +23,7 @@ public class NoteVO {
     @NotBlank
     private String content;
 
-    public NoteVO(Note note) {
+    public NoteVO(BlogNote note) {
         this.id = note.getId();
         this.title = note.getTitle();
         this.content = note.getContent();

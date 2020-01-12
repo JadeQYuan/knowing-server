@@ -1,9 +1,11 @@
 package plus.knowing.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 @Data
-public class Tag {
+@TableName(value = "blog_tag")
+public class BlogTag {
 
     private Long id;
 

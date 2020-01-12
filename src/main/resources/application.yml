@@ -8,7 +8,24 @@ spring:
     default-property-inclusion: non_null
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
+qq:
+  app—id: 101845020
+  app-key: 5713ac1ba160468e9f1c0da1fdff2ea7
+  redirect-uri: https://knowing.eicp.vip/auth
+  scope: get_user_info
+  authorize-url: https://graph.qq.com/oauth2.0/authorize?response_type=code&client_id=${qq.app—id}&redirect_uri=${qq.redirect-uri}&state=%s&scope=${qq.scope}
+  access-token-url: https://graph.qq.com/oauth2.0/token?grant_type=authorization_code&client_id=${qq.app—id}&client_secret=${qq.app-key}&code=%s&redirect_uri=${qq.redirect-uri}
+  get-open-id-url: https://graph.qq.com/oauth2.0/me?access_token=%s
+  get-user-info-url: https://graph.qq.com/user/get_user_info?access_token=%s&oauth_consumer_key=${qq.app—id}&openid=%s
 
+git-hub:
+  client_id: 3a5e58c2aa540202a5ac
+  client_secret: a9c624e948caf82a5bcefbee2703f820fe014866
+  redirect-uri: https://knowing.eicp.vip/auth
+  scope: get_user_info
+  authorize-url: https://github.com/login/oauth/authorize?client_id=${git-hub.client_id}&state=%s
+  access-token-url: https://github.com/login/oauth/access_token?client_id=${git-hub.client_id}&client_secret=${git-hub.client_secret}&code=%s
+  get-open-id-url: https://api.github.com/user
 
 ---
 spring:

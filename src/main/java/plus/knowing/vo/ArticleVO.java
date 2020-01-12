@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
-import plus.knowing.entity.Article;
+import plus.knowing.entity.BlogArticle;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
@@ -30,7 +30,7 @@ public class ArticleVO {
     @NonNull
     private List<TagVO> tags;
 
-    public ArticleVO(Article article) {
+    public ArticleVO(BlogArticle article) {
         this.id = article.getId();
         this.title = article.getTitle();
         this.content = article.getContent();

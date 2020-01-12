@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import plus.knowing.entity.Tag;
+import plus.knowing.entity.BlogTag;
 
 import javax.validation.constraints.NotBlank;
 
@@ -23,7 +23,7 @@ public class TagVO {
     @NotBlank
     private String description;
 
-    public TagVO(Tag tag) {
+    public TagVO(BlogTag tag) {
         this.id = tag.getId();
         this.name = tag.getName();
         this.description = tag.getDescription();
