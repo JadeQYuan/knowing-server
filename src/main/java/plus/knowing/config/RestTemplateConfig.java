@@ -38,6 +38,7 @@ public class RestTemplateConfig {
         TextMappingJackson2HttpMessageConverter(){
             List<MediaType> mediaTypes = new ArrayList<>();
             mediaTypes.add(MediaType.TEXT_PLAIN);
+            mediaTypes.add(MediaType.TEXT_HTML);
             setSupportedMediaTypes(mediaTypes);
         }
     }
