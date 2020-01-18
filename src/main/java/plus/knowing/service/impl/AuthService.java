@@ -1,7 +1,6 @@
 package plus.knowing.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import org.apache.tomcat.util.security.MD5Encoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -18,6 +17,7 @@ import plus.knowing.dao.SysUserOAuthDao;
 import plus.knowing.entity.SysUser;
 import plus.knowing.entity.SysUserOAuth;
 import plus.knowing.service.IAuthService;
+import plus.knowing.util.JsonUtils;
 import plus.knowing.vo.auth.*;
 
 import java.time.LocalDateTime;
@@ -62,12 +62,15 @@ public class AuthService implements IAuthService {
         SysUser sysUser;
         switch (authVO.getState()) {
             case QQ: {
-                QQAccessToken accessToken = restTemplate.getForObject(String.format(qqConfigProp.getAccessTokenUrl(), authVO.getCode()), QQAccessToken.class);
-                QQOpenId openId = restTemplate.getForObject(String.format(qqConfigProp.getGetOpenIdUrl(), accessToken.getAccess_token()), QQOpenId.class);
+                String accessTokenStr = restTemplate.getForObject(String.format(qqConfigProp.getAccessTokenUrl(), authVO.getCode()), String.class);
+                QQAccessToken accessToken = an(accessTokenStr);
+                String openIdStr = restTemplate.getForObject(String.format(qqConfigProp.getGetOpenIdUrl(), accessToken.getAccess_token()), String.class);
+                QQOpenId openId = JsonUtils.read(openIdStr.replace("callback( ", "").replace(" )", ""), QQOpenId.class);;
                 userOAuth.setOpenId(openId.getOpenid());
                 SysUserOAuth oAuth = sysUserOAuthDao.selectOne(new QueryWrapper<>(userOAuth));
                 if (Objects.isNull(oAuth)) {
-                    QQUserInfo userInfo = restTemplate.getForObject(String.format(qqConfigProp.getGetUserInfoUrl(), accessToken.getAccess_token(), openId.getOpenid()), QQUserInfo.class);
+                    String userInfoStr = restTemplate.getForObject(String.format(qqConfigProp.getGetUserInfoUrl(), accessToken.getAccess_token(), openId.getOpenid()), String.class);
+                    QQUserInfo userInfo = JsonUtils.read(userInfoStr.replace("callback( ", "").replace(" )", ""), QQUserInfo.class);;
                     sysUser = new SysUser();
                     sysUser.setNickname(userInfo.getNickname());
                     sysUser.setAvatarUrl(userInfo.getFigureurl_qq_1());
@@ -105,5 +108,24 @@ public class AuthService implements IAuthService {
                 throw new RuntimeException("登录平台不支持！");
         }
         return Arrays.toString(DigestUtils.md5Digest((sysUser.getId() + "&" + authVO.getState() + "&" + System.currentTimeMillis()).getBytes()));
+    }
+
+    private QQAccessToken an(String str) {
+        QQAccessToken token = new QQAccessToken();
+        for (String s : str.split("&")) {
+            String[] split = s.split("=");
+            switch (split[0]) {
+                case "access_token" :
+                    token.setAccess_token(split[1]);
+                    break;
+                case "expires_in" :
+                    token.setExpires_in(Long.parseLong(split[1]));
+                    break;
+                case "refresh_token" :
+                    token.setRefresh_token(split[1]);
+                    break;
+            }
+        }
+        return token;
     }
 }
