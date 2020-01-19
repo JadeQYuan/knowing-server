@@ -16,4 +16,6 @@ public class SysUser {
     private String avatarUrl;
 
     private LocalDateTime createTime;
+
+    private String email;
 }

@@ -27,7 +27,7 @@ public class TagService implements ITagService {
     public void addTag(TagVO tagVO) {
         BlogTag tag = new BlogTag();
         tag.setName(tagVO.getName());
-        tag.setDescription(tagVO.getDescription());
+        tag.setIntro(tagVO.getDescription());
         blogTagDao.insert(tag);
     }
 
@@ -69,8 +69,8 @@ public class TagService implements ITagService {
             tag.setName(tagVO.getName());
             flag = true;
         }
-        if (!Objects.equals(tag.getDescription(), tagVO.getDescription())) {
-            tag.setDescription(tagVO.getDescription());
+        if (!Objects.equals(tag.getIntro(), tagVO.getDescription())) {
+            tag.setIntro(tagVO.getDescription());
             flag = true;
         }
         if (flag) {

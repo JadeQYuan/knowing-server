@@ -26,6 +26,6 @@ public class TagVO {
     public TagVO(BlogTag tag) {
         this.id = tag.getId();
         this.name = tag.getName();
-        this.description = tag.getDescription();
+        this.description = tag.getIntro();
     }
 }

@@ -3,6 +3,8 @@ package plus.knowing.entity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 @TableName(value = "blog_tag_category")
 public class BlogTagCategory {
@@ -11,5 +13,9 @@ public class BlogTagCategory {
 
     private String name;
 
-    private String description;
+    private Boolean shared;
+
+    private LocalDateTime createTime;
+
+    private Long createUserId;
 }
