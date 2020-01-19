@@ -1,3 +1,5 @@
+create database knowing DEFAULT CHARSET utf8 COLLATE utf8_general_ci;
+
 create table article
 (
     id      bigint auto_increment primary key,
@@ -36,7 +38,7 @@ create table sys_user
 (
     id bigint auto_increment primary key,
     nickname varchar(20) not null,
-    avatar_url varchar(128) not null,
+    avatar_url varchar(64) not null,
     create_time datetime not null
 );
 
