@@ -1,9 +1,9 @@
 package plus.knowing.service;
 
-import plus.knowing.vo.ArticleQueryVO;
-import plus.knowing.vo.ArticleVO;
-import plus.knowing.vo.PageVO;
-import plus.knowing.vo.TagVO;
+import plus.knowing.vo.blog.ArticleQueryVO;
+import plus.knowing.vo.blog.ArticleVO;
+import plus.knowing.vo.generic.PageVO;
+import plus.knowing.vo.sys.UserVO;
 
 import java.util.List;
 
@@ -12,8 +12,9 @@ public interface IArticleService {
     /**
      * 添加文章
      * @param articleVO
+     * @param userVO
      */
-    void addArticle(ArticleVO articleVO);
+    void addArticle(ArticleVO articleVO, UserVO userVO);
 
     /**
      * 查询文章列表
@@ -40,6 +41,7 @@ public interface IArticleService {
      * 更新文章
      * @param id
      * @param articleVO
+     * @param userVO
      */
-    void update(Long id, ArticleVO articleVO);
+    void update(Long id, ArticleVO articleVO, UserVO userVO);
 }

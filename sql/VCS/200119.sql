@@ -49,6 +49,7 @@ COMMENT = '标签分类' ;
 
 ALTER TABLE `knowing`.`sys_user`
     ADD COLUMN `email` VARCHAR(64) NULL DEFAULT NULL COMMENT '邮箱地址' AFTER `create_time`,
+    ADD COLUMN `roles` VARCHAR(64) NOT NULL AFTER `email`,
     CHANGE COLUMN `nickname` `nickname` VARCHAR(20) NOT NULL COMMENT '昵称' ,
     CHANGE COLUMN `avatar_url` `avatar_url` VARCHAR(128) NOT NULL COMMENT '头像地址' ,
     CHANGE COLUMN `create_time` `create_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间' ,

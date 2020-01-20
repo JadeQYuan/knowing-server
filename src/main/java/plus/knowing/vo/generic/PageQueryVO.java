@@ -1,4 +1,4 @@
-package plus.knowing.vo;
+package plus.knowing.vo.generic;
 
 import lombok.Getter;
 import lombok.Setter;

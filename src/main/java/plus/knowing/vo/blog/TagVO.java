@@ -1,4 +1,4 @@
-package plus.knowing.vo;
+package plus.knowing.vo.blog;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
@@ -20,12 +20,16 @@ public class TagVO {
     @NotBlank
     private String name;
 
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long categoryId;
+
     @NotBlank
     private String description;
 
     public TagVO(BlogTag tag) {
         this.id = tag.getId();
         this.name = tag.getName();
+        this.categoryId = tag.getCategoryId();
         this.description = tag.getIntro();
     }
 }

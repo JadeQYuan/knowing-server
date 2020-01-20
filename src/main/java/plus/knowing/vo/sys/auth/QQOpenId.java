@@ -1,4 +1,4 @@
-package plus.knowing.vo.auth;
+package plus.knowing.vo.sys.auth;
 
 import lombok.Getter;
 import lombok.Setter;

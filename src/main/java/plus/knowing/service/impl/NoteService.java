@@ -9,9 +9,9 @@ import org.springframework.util.StringUtils;
 import plus.knowing.dao.BlogNoteDao;
 import plus.knowing.entity.BlogNote;
 import plus.knowing.service.INoteService;
-import plus.knowing.vo.NoteQueryVO;
-import plus.knowing.vo.NoteVO;
-import plus.knowing.vo.PageVO;
+import plus.knowing.vo.blog.NoteQueryVO;
+import plus.knowing.vo.blog.NoteVO;
+import plus.knowing.vo.generic.PageVO;
 
 import java.util.List;
 import java.util.Objects;

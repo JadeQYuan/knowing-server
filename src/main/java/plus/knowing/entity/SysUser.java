@@ -18,4 +18,6 @@ public class SysUser {
     private LocalDateTime createTime;
 
     private String email;
+
+    private String roles;
 }

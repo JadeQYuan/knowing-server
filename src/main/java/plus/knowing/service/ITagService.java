@@ -1,8 +1,8 @@
 package plus.knowing.service;
 
-import plus.knowing.vo.PageVO;
-import plus.knowing.vo.TagQueryVO;
-import plus.knowing.vo.TagVO;
+import plus.knowing.vo.generic.PageVO;
+import plus.knowing.vo.blog.TagQueryVO;
+import plus.knowing.vo.blog.TagVO;
 
 import java.util.List;
 

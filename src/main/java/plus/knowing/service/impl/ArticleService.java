@@ -13,11 +13,13 @@ import plus.knowing.entity.BlogArticle;
 import plus.knowing.entity.BlogArticleTags;
 import plus.knowing.service.IArticleService;
 import plus.knowing.service.ITagService;
-import plus.knowing.vo.ArticleQueryVO;
-import plus.knowing.vo.ArticleVO;
-import plus.knowing.vo.PageVO;
-import plus.knowing.vo.TagVO;
+import plus.knowing.vo.blog.ArticleQueryVO;
+import plus.knowing.vo.blog.ArticleVO;
+import plus.knowing.vo.generic.PageVO;
+import plus.knowing.vo.blog.TagVO;
+import plus.knowing.vo.sys.UserVO;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -36,10 +38,10 @@ public class ArticleService implements IArticleService {
 
     @Override
     @Transactional
-    public void addArticle(ArticleVO articleVO) {
-        BlogArticle article = new BlogArticle();
-        article.setTitle(articleVO.getTitle());
-        article.setContent(articleVO.getContent());
+    public void addArticle(ArticleVO articleVO, UserVO userVO) {
+        BlogArticle article = new BlogArticle(articleVO);
+        article.setCreateTime(LocalDateTime.now());
+        article.setCreateUserId(userVO.getId());
         blogArticleDao.insert(article);
         articleVO.getTags().forEach(tagVO -> {
             BlogArticleTags articleTags = new BlogArticleTags();
@@ -52,6 +54,7 @@ public class ArticleService implements IArticleService {
     @Override
     public List<ArticleVO> listArticles(ArticleVO articleVO) {
         QueryWrapper<BlogArticle> articleQueryWrapper = new QueryWrapper<>();
+        articleQueryWrapper.orderByDesc(" create_time ");
         if (StringUtils.hasText(articleVO.getTitle())) {
             articleQueryWrapper.like("title", articleVO.getTitle());
         }
@@ -93,9 +96,12 @@ public class ArticleService implements IArticleService {
     }
 
     @Override
-    public void update(Long id, ArticleVO articleVO) {
+    public void update(Long id, ArticleVO articleVO, UserVO userVO) {
         BlogArticle article = blogArticleDao.selectById(id);
         if (Objects.isNull(article)) {
+            return;
+        }
+        if (!article.getCreateUserId().equals(userVO.getId())) {
             return;
         }
         boolean flag = false;

@@ -4,14 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import plus.knowing.service.ITagService;
-import plus.knowing.vo.PageVO;
-import plus.knowing.vo.TagQueryVO;
-import plus.knowing.vo.TagVO;
+import plus.knowing.vo.generic.PageVO;
+import plus.knowing.vo.blog.TagQueryVO;
+import plus.knowing.vo.blog.TagVO;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/tag")
+@RequestMapping(path = "/tags")
 public class TagController {
 
     @Autowired

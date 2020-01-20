@@ -12,20 +12,26 @@ import org.springframework.web.client.RestTemplate;
 import plus.knowing.config.prop.GitHubConfigProp;
 import plus.knowing.config.prop.QQConfigProp;
 import plus.knowing.constant.AuthPlateFormEnum;
+import plus.knowing.constant.RoleEnum;
 import plus.knowing.dao.SysUserDao;
 import plus.knowing.dao.SysUserOAuthDao;
 import plus.knowing.entity.SysUser;
 import plus.knowing.entity.SysUserOAuth;
 import plus.knowing.service.IAuthService;
 import plus.knowing.util.JsonUtils;
-import plus.knowing.vo.auth.*;
+import plus.knowing.vo.sys.UserVO;
+import plus.knowing.vo.sys.auth.*;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class AuthService implements IAuthService {
+
+    private static final Map<String, UserVO> userMap = new ConcurrentHashMap<>();
 
     @Autowired
     private RestTemplate restTemplate;
@@ -75,6 +81,7 @@ public class AuthService implements IAuthService {
                     sysUser.setNickname(userInfo.getNickname());
                     sysUser.setAvatarUrl(userInfo.getFigureurl_qq_1());
                     sysUser.setCreateTime(LocalDateTime.now());
+                    sysUser.setRoles(RoleEnum.getDefaultRoleStr());
                     sysUserDao.insert(sysUser);
                     userOAuth.setUserId(sysUser.getId());
                     sysUserOAuthDao.insert(userOAuth);
@@ -96,6 +103,7 @@ public class AuthService implements IAuthService {
                     sysUser.setNickname(userInfo.getName());
                     sysUser.setAvatarUrl(userInfo.getAvatar_url());
                     sysUser.setCreateTime(LocalDateTime.now());
+                    sysUser.setRoles(RoleEnum.getDefaultRoleStr());
                     sysUserDao.insert(sysUser);
                     userOAuth.setUserId(sysUser.getId());
                     sysUserOAuthDao.insert(userOAuth);
@@ -107,7 +115,14 @@ public class AuthService implements IAuthService {
             default:
                 throw new RuntimeException("登录平台不支持！");
         }
-        return Arrays.toString(DigestUtils.md5Digest((sysUser.getId() + "&" + authVO.getState() + "&" + System.currentTimeMillis()).getBytes()));
+        String token = Arrays.toString(DigestUtils.md5Digest((sysUser.getId() + "&" + authVO.getState() + "&" + System.currentTimeMillis()).getBytes()));
+        userMap.put(token, new UserVO(sysUser));
+        return token;
+    }
+
+    @Override
+    public UserVO getUserByToken(String token) {
+        return userMap.get(token);
     }
 
     private QQAccessToken an(String str) {
