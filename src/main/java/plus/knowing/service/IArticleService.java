@@ -28,7 +28,7 @@ public interface IArticleService {
      * @param queryVO
      * @return
      */
-    PageVO<ArticleVO> pagingListTags(ArticleQueryVO queryVO);
+    PageVO<ArticleVO> pagingListArticles(ArticleQueryVO queryVO);
 
     /**
      * 获取文章
