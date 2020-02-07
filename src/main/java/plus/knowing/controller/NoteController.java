@@ -9,6 +9,7 @@ import plus.knowing.service.INoteService;
 import plus.knowing.vo.blog.NoteQueryVO;
 import plus.knowing.vo.blog.NoteVO;
 import plus.knowing.vo.generic.PageVO;
+import plus.knowing.vo.sys.UserVO;
 
 import java.util.List;
 
@@ -21,8 +22,8 @@ public class NoteController {
 
     @Role(value = {RoleEnum.Author})
     @PostMapping(path = "")
-    public void addNote(@RequestBody @Validated NoteVO noteVO) {
-        iNoteService.addNote(noteVO);
+    public void addNote(@RequestBody @Validated NoteVO noteVO, @RequestAttribute UserVO user) {
+        iNoteService.addNote(noteVO, user);
     }
 
     @Role(value = {RoleEnum.Author})

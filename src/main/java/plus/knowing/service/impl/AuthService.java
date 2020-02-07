@@ -23,7 +23,6 @@ import plus.knowing.vo.sys.UserVO;
 import plus.knowing.vo.sys.auth.*;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
@@ -115,7 +114,7 @@ public class AuthService implements IAuthService {
             default:
                 throw new RuntimeException("登录平台不支持！");
         }
-        String token = Arrays.toString(DigestUtils.md5Digest((sysUser.getId() + "&" + authVO.getState() + "&" + System.currentTimeMillis()).getBytes()));
+        String token = DigestUtils.md5DigestAsHex((sysUser.getId() + "&" + authVO.getState() + "&" + System.currentTimeMillis()).getBytes());
         userMap.put(token, new UserVO(sysUser));
         return token;
     }

@@ -19,9 +19,6 @@ qq:
   get-user-info-url: https://graph.qq.com/user/get_user_info?access_token=%s&oauth_consumer_key=${qq.app—id}&openid=%s
 
 git-hub:
-  client_id: 3a5e58c2aa540202a5ac
-  client_secret: a9c624e948caf82a5bcefbee2703f820fe014866
-  redirect-uri: https://knowing.eicp.vip/auth
   scope: get_user_info
   authorize-url: https://github.com/login/oauth/authorize?client_id=${git-hub.client_id}&state=%s
   access-token-url: https://github.com/login/oauth/access_token?client_id=${git-hub.client_id}&client_secret=${git-hub.client_secret}&code=%s
@@ -34,11 +31,11 @@ spring:
     url: jdbc:mysql://localhost:3306/knowing?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
     username: root
     password: root
-logging:
-  file:
-    path: /log/knowing
-  level:
-    plus.knowing: WARN
+
+git-hub:
+  client_id: daba1ce351c8b2998797
+  client_secret: 69721c04d3971b44858e2c87a371914136dcfa8c
+  redirect-uri: http://localhost:8080/auth
 
 ---
 spring:
@@ -47,6 +44,12 @@ spring:
     url: jdbc:mysql://172.16.31.101:3306/knowing?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
     username: root
     password: root
+
+git-hub:
+  client_id: 3a5e58c2aa540202a5ac
+  client_secret: a9c624e948caf82a5bcefbee2703f820fe014866
+  redirect-uri: https://knowing.eicp.vip/auth
+
 logging:
   file:
     path: /var/knowing/log
