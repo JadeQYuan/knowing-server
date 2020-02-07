@@ -32,8 +32,8 @@ public class ArticleController {
     }
 
     @GetMapping(path = "/paging")
-    public PageVO<ArticleVO> pagingListTags(ArticleQueryVO queryVO) {
-        return iArticleService.pagingListTags(queryVO);
+    public PageVO<ArticleVO> pagingListArticles(ArticleQueryVO queryVO) {
+        return iArticleService.pagingListArticles(queryVO);
     }
 
     @GetMapping(path = "/{id}")

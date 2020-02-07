@@ -12,9 +12,11 @@ import plus.knowing.dao.BlogArticleTagsDao;
 import plus.knowing.entity.BlogArticle;
 import plus.knowing.entity.BlogArticleTags;
 import plus.knowing.service.IArticleService;
+import plus.knowing.service.ISpecialService;
 import plus.knowing.service.ITagService;
 import plus.knowing.vo.blog.ArticleQueryVO;
 import plus.knowing.vo.blog.ArticleVO;
+import plus.knowing.vo.blog.SpecialVO;
 import plus.knowing.vo.generic.PageVO;
 import plus.knowing.vo.blog.TagVO;
 import plus.knowing.vo.sys.UserVO;
@@ -35,6 +37,9 @@ public class ArticleService implements IArticleService {
 
     @Autowired
     private ITagService iTagService;
+
+    @Autowired
+    private ISpecialService iSpecialService;
 
     @Override
     @Transactional
@@ -69,7 +74,7 @@ public class ArticleService implements IArticleService {
     }
 
     @Override
-    public PageVO<ArticleVO> pagingListTags(ArticleQueryVO queryVO) {
+    public PageVO<ArticleVO> pagingListArticles(ArticleQueryVO queryVO) {
         QueryWrapper<BlogArticle> tagQueryWrapper = new QueryWrapper<>();
         if (StringUtils.hasText(queryVO.getTitle())) {
             tagQueryWrapper.like("title", queryVO.getTitle());
@@ -80,6 +85,10 @@ public class ArticleService implements IArticleService {
             List<BlogArticleTags> articleTagsList = blogArticleTagsDao.selectList(new QueryWrapper<BlogArticleTags>().eq("article_id", vo.getId()));
             List<TagVO> tags = articleTagsList.stream().map(articleTags -> iTagService.get(articleTags.getTagId())).collect(Collectors.toList());
             vo.setTags(tags);
+            if (Objects.nonNull(vo.getSpecialId())) {
+                SpecialVO specialVO = iSpecialService.get(vo.getSpecialId());
+                vo.setSpecialName(specialVO.getName());
+            }
         });
         return new PageVO<>(page, voList);
     }

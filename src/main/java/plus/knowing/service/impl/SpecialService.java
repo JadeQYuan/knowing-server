@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import plus.knowing.dao.BlogSpecialDao;
 import plus.knowing.entity.BlogSpecial;
 import plus.knowing.service.ISpecialService;
@@ -35,7 +36,9 @@ public class SpecialService implements ISpecialService {
     @Override
     public List<SpecialVO> list(SpecialQueryVO queryVO) {
         QueryWrapper<BlogSpecial> specialWrapper = new QueryWrapper<>();
-        specialWrapper.eq("name", queryVO.getName());
+        if (StringUtils.hasText(queryVO.getName())) {
+            specialWrapper.eq("name", queryVO.getName());
+        }
         List<BlogSpecial> specialList = blogSpecialDao.selectList(specialWrapper);
         return ConvertUtil.convert(specialList, SpecialVO.class);
     }
@@ -43,7 +46,10 @@ public class SpecialService implements ISpecialService {
     @Override
     public PageVO<SpecialVO> pagingList(SpecialQueryVO queryVO) {
         QueryWrapper<BlogSpecial> specialWrapper = new QueryWrapper<>();
-        specialWrapper.eq("name", queryVO.getName());
+        if (StringUtils.hasText(queryVO.getName())) {
+            specialWrapper.eq("name", queryVO.getName());
+        }
+        specialWrapper.eq("shared", true);
         IPage<BlogSpecial> page = blogSpecialDao.selectPage(new Page<>(queryVO.getPageNum(), queryVO.getPageSize()), specialWrapper);
         return PageVO.build(page, SpecialVO.class);
     }

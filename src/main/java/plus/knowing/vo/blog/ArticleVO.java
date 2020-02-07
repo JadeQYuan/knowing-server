@@ -10,6 +10,7 @@ import plus.knowing.entity.BlogArticle;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -32,9 +33,15 @@ public class ArticleVO {
     @NonNull
     private List<TagVO> tags;
 
+    private LocalDateTime createTime;
+
+    private String specialName;
+
     public ArticleVO(BlogArticle article) {
         this.id = article.getId();
         this.title = article.getTitle();
         this.content = article.getContent();
+        this.specialId = article.getSpecialId();
+        this.createTime = article.getCreateTime();
     }
 }
