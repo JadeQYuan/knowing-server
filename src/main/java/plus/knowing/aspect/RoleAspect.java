@@ -12,6 +12,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import plus.knowing.annotation.Role;
 import plus.knowing.constant.RoleEnum;
 import plus.knowing.controller.advice.AuthInterceptor;
+import plus.knowing.exception.BizException;
+import plus.knowing.exception.data.ExceptionEnum;
 import plus.knowing.vo.sys.UserVO;
 
 import java.lang.reflect.Method;
@@ -40,7 +42,7 @@ public class RoleAspect {
 
     private void validPermission(UserVO userVO, Role roleAnnotation) {
         if (Objects.isNull(userVO)) {
-            throw new RuntimeException("未登录！");
+            throw new BizException(ExceptionEnum.NotLogged);
         }
         // 管理员可进行所有操作
         if (userVO.getRoles().contains(RoleEnum.Admin)) {
@@ -48,7 +50,7 @@ public class RoleAspect {
         }
         List<RoleEnum> roleEnumList = Arrays.stream(roleAnnotation.value()).collect(Collectors.toList());
         if (!CollectionUtils.containsAny(roleEnumList, userVO.getRoles())) {
-            throw new RuntimeException("权限不足，无法操作！");
+            throw new BizException(ExceptionEnum.InsufficientPermissions);
         }
     }
 }

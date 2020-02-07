@@ -35,9 +35,11 @@ public class UnifiedResponseBodyAdvice implements ResponseBodyAdvice {
     @ExceptionHandler(value = Exception.class)
     public UnifiedResponseBody<String> handleException(Exception e) {
         if (e instanceof DBException) {
-            return UnifiedResponseBody.buildFailureResponse(String.format("【数据异常 : %s】", e.getMessage()));
+            log.error(String.format("【数据异常 : %s】", e.getMessage()));
+            return UnifiedResponseBody.buildFailureResponse((DBException) e);
         } else if (e instanceof BizException) {
-            return UnifiedResponseBody.buildFailureResponse(String.format("【业务异常 : %s】", e.getMessage()));
+            log.error(String.format("【业务异常 : %s】", e.getMessage()));
+            return UnifiedResponseBody.buildFailureResponse((BizException) e);
         }
         log.error("【系统异常】", e);
         return UnifiedResponseBody.buildErrorResponse();
