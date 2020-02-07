@@ -1,7 +1,8 @@
-package plus.knowing.vo;
+package plus.knowing.vo.blog;
 
 import lombok.Getter;
 import lombok.Setter;
+import plus.knowing.vo.generic.PageQueryVO;
 
 @Getter
 @Setter

@@ -1,3 +1,5 @@
+create database knowing DEFAULT CHARSET utf8 COLLATE utf8_general_ci;
+
 create table article
 (
     id      bigint auto_increment primary key,

@@ -1,8 +1,9 @@
 package plus.knowing.service;
 
-import plus.knowing.vo.NoteQueryVO;
-import plus.knowing.vo.NoteVO;
-import plus.knowing.vo.PageVO;
+import plus.knowing.vo.blog.NoteQueryVO;
+import plus.knowing.vo.blog.NoteVO;
+import plus.knowing.vo.generic.PageVO;
+import plus.knowing.vo.sys.UserVO;
 
 import java.util.List;
 
@@ -11,8 +12,9 @@ public interface INoteService {
     /**
      * 添加笔记
      * @param noteVO
+     * @param userVO
      */
-    void addNote(NoteVO noteVO);
+    void addNote(NoteVO noteVO, UserVO userVO);
 
     /**
      * 查询笔记列表

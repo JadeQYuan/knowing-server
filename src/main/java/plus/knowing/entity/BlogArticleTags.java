@@ -8,6 +8,8 @@ import lombok.Data;
 @TableName(value = "blog_article_tag")
 public class BlogArticleTags {
 
+    private Long id;
+
     @TableField(value = "article_id")
     private Long articleId;
 

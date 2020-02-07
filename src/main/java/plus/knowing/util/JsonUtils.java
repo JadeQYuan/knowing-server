@@ -39,15 +39,12 @@ public class JsonUtils {
         }
     }
 
-    public static <T> T read(String text, JavaType valueType) {
+    public static <T> T read(String text, Class<?> collectionClass, Class<?>... elementClasses) {
         try {
+            JavaType valueType = objectMapper.getTypeFactory().constructParametricType(collectionClass, elementClasses);
             return objectMapper.readValue(text, valueType);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public static JavaType getCollectionType(Class<?> collectionClass, Class<?>... elementClasses) {
-        return objectMapper.getTypeFactory().constructParametricType(collectionClass, elementClasses);
     }
 }

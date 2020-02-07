@@ -1,18 +1,21 @@
-package plus.knowing.vo;
+package plus.knowing.vo.blog;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.Setter;
-import plus.knowing.entity.BlogNote;
+import plus.knowing.entity.BlogArticle;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
-public class NoteVO {
+public class ArticleVO {
 
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
@@ -23,9 +26,15 @@ public class NoteVO {
     @NotBlank
     private String content;
 
-    public NoteVO(BlogNote note) {
-        this.id = note.getId();
-        this.title = note.getTitle();
-        this.content = note.getContent();
+    private Long specialId;
+
+    @NotEmpty
+    @NonNull
+    private List<TagVO> tags;
+
+    public ArticleVO(BlogArticle article) {
+        this.id = article.getId();
+        this.title = article.getTitle();
+        this.content = article.getContent();
     }
 }

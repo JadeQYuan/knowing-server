@@ -5,6 +5,7 @@ import lombok.Getter;
 @Getter
 public enum ExceptionEnum {
 
+    InsufficientPermissions
     ;
     private Integer code;
 

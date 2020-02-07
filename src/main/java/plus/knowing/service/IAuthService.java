@@ -1,7 +1,8 @@
 package plus.knowing.service;
 
 import plus.knowing.constant.AuthPlateFormEnum;
-import plus.knowing.vo.auth.AuthVO;
+import plus.knowing.vo.sys.UserVO;
+import plus.knowing.vo.sys.auth.AuthVO;
 
 public interface IAuthService {
 
@@ -18,4 +19,11 @@ public interface IAuthService {
      * @return
      */
     String login(AuthVO authVO);
+
+    /**
+     * 根据token获取登录用户
+     * @param token
+     * @return
+     */
+    UserVO getUserByToken(String token);
 }

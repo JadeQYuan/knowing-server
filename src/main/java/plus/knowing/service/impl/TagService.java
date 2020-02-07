@@ -9,9 +9,9 @@ import org.springframework.util.StringUtils;
 import plus.knowing.dao.BlogTagDao;
 import plus.knowing.entity.BlogTag;
 import plus.knowing.service.ITagService;
-import plus.knowing.vo.PageVO;
-import plus.knowing.vo.TagQueryVO;
-import plus.knowing.vo.TagVO;
+import plus.knowing.vo.generic.PageVO;
+import plus.knowing.vo.blog.TagQueryVO;
+import plus.knowing.vo.blog.TagVO;
 
 import java.util.List;
 import java.util.Objects;
@@ -27,7 +27,7 @@ public class TagService implements ITagService {
     public void addTag(TagVO tagVO) {
         BlogTag tag = new BlogTag();
         tag.setName(tagVO.getName());
-        tag.setDescription(tagVO.getDescription());
+        tag.setIntro(tagVO.getDescription());
         blogTagDao.insert(tag);
     }
 
@@ -69,8 +69,8 @@ public class TagService implements ITagService {
             tag.setName(tagVO.getName());
             flag = true;
         }
-        if (!Objects.equals(tag.getDescription(), tagVO.getDescription())) {
-            tag.setDescription(tagVO.getDescription());
+        if (!Objects.equals(tag.getIntro(), tagVO.getDescription())) {
+            tag.setIntro(tagVO.getDescription());
             flag = true;
         }
         if (flag) {

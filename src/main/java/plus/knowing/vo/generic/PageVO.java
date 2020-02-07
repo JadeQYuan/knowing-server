@@ -1,10 +1,11 @@
-package plus.knowing.vo;
+package plus.knowing.vo.generic;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import plus.knowing.util.ConvertUtil;
 
 import java.util.Collections;
 import java.util.List;
@@ -22,7 +23,7 @@ public class PageVO<T> {
 
     private Long totalPage = 0L;
 
-    public PageVO(Page<T> page) {
+    private PageVO(Page<T> page) {
         this.total = page.getTotal();
         this.currentPage = page.getCurrent();
         this.totalPage = page.getPages();
@@ -34,5 +35,9 @@ public class PageVO<T> {
         this.currentPage = page.getCurrent();
         this.totalPage = page.getPages();
         this.list = voList;
+    }
+
+    public static <D, T> PageVO<T> build(IPage<D> page, Class<T> tClass) {
+        return new PageVO<>(page, ConvertUtil.convert(page.getRecords(), tClass));
     }
 }
