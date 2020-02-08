@@ -27,6 +27,11 @@ public class TagController {
         return iTagService.listTags(tagVO);
     }
 
+    @GetMapping(path = "/popular")
+    public List<TagVO> listPopularTags() {
+        return iTagService.listPopularTags();
+    }
+
     @GetMapping(path = "/paging")
     public PageVO<TagVO> pagingListTags(TagQueryVO queryVO) {
         return iTagService.pagingListTags(queryVO);

@@ -17,6 +17,7 @@ import plus.knowing.service.ITagService;
 import plus.knowing.vo.blog.ArticleQueryVO;
 import plus.knowing.vo.blog.ArticleVO;
 import plus.knowing.vo.blog.SpecialVO;
+import plus.knowing.vo.generic.PageQueryVO;
 import plus.knowing.vo.generic.PageVO;
 import plus.knowing.vo.blog.TagVO;
 import plus.knowing.vo.sys.UserVO;
@@ -74,12 +75,30 @@ public class ArticleService implements IArticleService {
     }
 
     @Override
+    public PageVO<ArticleVO> pagingNewestArticles(PageQueryVO queryVO) {
+        QueryWrapper<BlogArticle> articleQueryWrapper = new QueryWrapper<>();
+        articleQueryWrapper.orderByDesc(" create_time ");
+        IPage<BlogArticle> page = blogArticleDao.selectPage(new Page<>(queryVO.getPageNum(), queryVO.getPageSize()), articleQueryWrapper);
+        List<ArticleVO> voList = page.getRecords().stream().map(ArticleVO::new).collect(Collectors.toList());
+        voList.forEach(vo -> {
+            List<BlogArticleTags> articleTagsList = blogArticleTagsDao.selectList(new QueryWrapper<BlogArticleTags>().eq("article_id", vo.getId()));
+            List<TagVO> tags = articleTagsList.stream().map(articleTags -> iTagService.get(articleTags.getTagId())).collect(Collectors.toList());
+            vo.setTags(tags);
+            if (Objects.nonNull(vo.getSpecialId())) {
+                SpecialVO specialVO = iSpecialService.get(vo.getSpecialId());
+                vo.setSpecialName(specialVO.getName());
+            }
+        });
+        return new PageVO<>(page, voList);
+    }
+
+    @Override
     public PageVO<ArticleVO> pagingListArticles(ArticleQueryVO queryVO) {
-        QueryWrapper<BlogArticle> tagQueryWrapper = new QueryWrapper<>();
+        QueryWrapper<BlogArticle> articleQueryWrapper = new QueryWrapper<>();
         if (StringUtils.hasText(queryVO.getTitle())) {
-            tagQueryWrapper.like("title", queryVO.getTitle());
+            articleQueryWrapper.like("title", queryVO.getTitle());
         }
-        IPage<BlogArticle> page = blogArticleDao.selectPage(new Page<>(queryVO.getPageNum(), queryVO.getPageSize()), tagQueryWrapper);
+        IPage<BlogArticle> page = blogArticleDao.selectPage(new Page<>(queryVO.getPageNum(), queryVO.getPageSize()), articleQueryWrapper);
         List<ArticleVO> voList = page.getRecords().stream().map(ArticleVO::new).collect(Collectors.toList());
         voList.forEach(vo -> {
             List<BlogArticleTags> articleTagsList = blogArticleTagsDao.selectList(new QueryWrapper<BlogArticleTags>().eq("article_id", vo.getId()));
