@@ -42,6 +42,14 @@ public class TagService implements ITagService {
     }
 
     @Override
+    public List<TagVO> listPopularTags() {
+        QueryWrapper<BlogTag> tagQueryWrapper = new QueryWrapper<>();
+        tagQueryWrapper.last(" limit 10 ");
+        List<BlogTag> tagList = blogTagDao.selectList(tagQueryWrapper);
+        return tagList.stream().map(TagVO::new).collect(Collectors.toList());
+    }
+
+    @Override
     public PageVO<TagVO> pagingListTags(TagQueryVO queryVO) {
         QueryWrapper<BlogTag> tagQueryWrapper = new QueryWrapper<>();
         if (StringUtils.hasText(queryVO.getName())) {

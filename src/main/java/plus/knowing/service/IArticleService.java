@@ -2,6 +2,7 @@ package plus.knowing.service;
 
 import plus.knowing.vo.blog.ArticleQueryVO;
 import plus.knowing.vo.blog.ArticleVO;
+import plus.knowing.vo.generic.PageQueryVO;
 import plus.knowing.vo.generic.PageVO;
 import plus.knowing.vo.sys.UserVO;
 
@@ -22,6 +23,12 @@ public interface IArticleService {
      * @return
      */
     List<ArticleVO> listArticles(ArticleVO articleVO);
+
+    /**
+     * 分页查询最新文章
+     * @return
+     */
+    PageVO<ArticleVO> pagingNewestArticles(PageQueryVO queryVO);
 
     /**
      * 分页查询笔记

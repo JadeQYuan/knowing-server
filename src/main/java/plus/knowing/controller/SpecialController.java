@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import plus.knowing.annotation.Role;
+import plus.knowing.constant.RoleEnum;
 import plus.knowing.service.ISpecialService;
 import plus.knowing.vo.blog.SpecialQueryVO;
 import plus.knowing.vo.blog.SpecialVO;
@@ -27,7 +28,7 @@ public class SpecialController {
     private ISpecialService iSpecialService;
 
     @PostMapping(path = "")
-    @Role
+    @Role(value = RoleEnum.Author)
     public void add(@Validated @RequestBody SpecialVO specialVO, @RequestAttribute UserVO user) {
         iSpecialService.add(specialVO, user);
     }
@@ -48,6 +49,7 @@ public class SpecialController {
     }
 
     @PutMapping(path = "/{id}")
+    @Role(value = RoleEnum.Author)
     public void update(@PathVariable Long id, @Validated @RequestBody SpecialVO specialVO, @RequestAttribute UserVO user) {
         iSpecialService.update(id, specialVO, user);
     }

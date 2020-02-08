@@ -8,6 +8,7 @@ import plus.knowing.constant.RoleEnum;
 import plus.knowing.service.IArticleService;
 import plus.knowing.vo.blog.ArticleQueryVO;
 import plus.knowing.vo.blog.ArticleVO;
+import plus.knowing.vo.generic.PageQueryVO;
 import plus.knowing.vo.generic.PageVO;
 import plus.knowing.vo.sys.UserVO;
 
@@ -29,6 +30,11 @@ public class ArticleController {
     @GetMapping(path = "")
     public List<ArticleVO> listArticles(ArticleVO articleVO) {
         return iArticleService.listArticles(articleVO);
+    }
+
+    @GetMapping(path = "/newest/paging")
+    public PageVO<ArticleVO> pagingNewestArticles(PageQueryVO queryVO) {
+        return iArticleService.pagingNewestArticles(queryVO);
     }
 
     @GetMapping(path = "/paging")

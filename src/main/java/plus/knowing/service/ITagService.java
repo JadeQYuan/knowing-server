@@ -22,6 +22,12 @@ public interface ITagService {
     List<TagVO> listTags(TagVO tagVO);
 
     /**
+     * 查询最热标签列表（10个）
+     * @return
+     */
+    List<TagVO> listPopularTags();
+
+    /**
      * 分页查询标签列表
      * @param queryVO
      * @return
