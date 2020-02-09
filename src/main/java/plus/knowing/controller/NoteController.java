@@ -27,15 +27,9 @@ public class NoteController {
     }
 
     @Role(value = {RoleEnum.Author})
-    @GetMapping(path = "")
-    public List<NoteVO> listNotes(NoteVO noteVO) {
-        return iNoteService.listNotes(noteVO);
-    }
-
-    @Role(value = {RoleEnum.Author})
-    @GetMapping(path = "/paging")
-    public PageVO<NoteVO> pagingListTags(NoteQueryVO queryVO) {
-        return iNoteService.pagingListTags(queryVO);
+    @GetMapping(path = "/my/paging")
+    public PageVO<NoteVO> pagingListTags(NoteQueryVO queryVO, @RequestAttribute UserVO user) {
+        return iNoteService.pagingListTags(queryVO, user);
     }
 
     @Role(value = {RoleEnum.Author})
