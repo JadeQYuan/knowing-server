@@ -33,14 +33,21 @@ public class SpecialController {
         iSpecialService.add(specialVO, user);
     }
 
-    @GetMapping(path = "")
-    public List<SpecialVO> list(SpecialQueryVO queryVO) {
-        return iSpecialService.list(queryVO);
+    @GetMapping(path = "/my")
+    @Role(value = RoleEnum.Author)
+    public List<SpecialVO> listMy(SpecialQueryVO queryVO, @RequestAttribute UserVO user) {
+        return iSpecialService.listMy(queryVO, user);
     }
 
     @GetMapping(path = "/paging")
     public PageVO<SpecialVO> pagingList(SpecialQueryVO queryVO) {
-        return iSpecialService.pagingList(queryVO);
+        return iSpecialService.pagingPopularList(queryVO);
+    }
+
+    @GetMapping(path = "/my/paging")
+    @Role(value = RoleEnum.Author)
+    public PageVO<SpecialVO> pagingMyList(SpecialQueryVO queryVO, @RequestAttribute UserVO user) {
+        return iSpecialService.pagingMyList(queryVO, user);
     }
 
     @GetMapping(path = "/{id}")

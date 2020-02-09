@@ -19,16 +19,25 @@ public interface ISpecialService {
     /**
      * 查询专栏列表
      * @param queryVO
+     * @param userVO
      * @return
      */
-    List<SpecialVO> list(SpecialQueryVO queryVO);
+    List<SpecialVO> listMy(SpecialQueryVO queryVO, UserVO userVO);
 
     /**
-     * 分页查询专栏
+     * 分页查询最新专栏
      * @param queryVO
      * @return
      */
-    PageVO<SpecialVO> pagingList(SpecialQueryVO queryVO);
+    PageVO<SpecialVO> pagingPopularList(SpecialQueryVO queryVO);
+
+    /**
+     * 分页查询我的专栏
+     * @param queryVO
+     * @param userVO
+     * @return
+     */
+    PageVO<SpecialVO> pagingMyList(SpecialQueryVO queryVO, UserVO userVO);
 
     /**
      * 获取专栏
