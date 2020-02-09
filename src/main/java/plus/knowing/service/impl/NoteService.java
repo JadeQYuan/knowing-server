@@ -36,22 +36,26 @@ public class NoteService implements INoteService {
     }
 
     @Override
-    public List<NoteVO> listNotes(NoteVO noteVO) {
+    public PageVO<NoteVO> pagingListNotes(NoteQueryVO queryVO, UserVO userVO) {
         QueryWrapper<BlogNote> noteQueryWrapper = new QueryWrapper<>();
-        if (StringUtils.hasText(noteVO.getTitle())) {
-            noteQueryWrapper.like("title", noteVO.getTitle());
+        if (StringUtils.hasText(queryVO.getTitle())) {
+            noteQueryWrapper.like("title", queryVO.getTitle());
         }
-        List<BlogNote> noteList = blogNoteDao.selectList(noteQueryWrapper);
-        return noteList.stream().map(NoteVO::new).collect(Collectors.toList());
+        noteQueryWrapper.eq("create_user_id", userVO.getId());
+        noteQueryWrapper.orderByDesc(" create_time ");
+        IPage<BlogNote> page = blogNoteDao.selectPage(new Page<>(queryVO.getPageNum(), queryVO.getPageSize()), noteQueryWrapper);
+        List<NoteVO> voList = page.getRecords().stream().map(NoteVO::new).collect(Collectors.toList());
+        return new PageVO<>(page, voList);
     }
 
     @Override
-    public PageVO<NoteVO> pagingListTags(NoteQueryVO queryVO) {
-        QueryWrapper<BlogNote> tagQueryWrapper = new QueryWrapper<>();
+    public PageVO<NoteVO> pagingAllList(NoteQueryVO queryVO) {
+        QueryWrapper<BlogNote> noteQueryWrapper = new QueryWrapper<>();
         if (StringUtils.hasText(queryVO.getTitle())) {
-            tagQueryWrapper.like("title", queryVO.getTitle());
+            noteQueryWrapper.like("title", queryVO.getTitle());
         }
-        IPage<BlogNote> page = blogNoteDao.selectPage(new Page<>(queryVO.getPageNum(), queryVO.getPageSize()), tagQueryWrapper);
+        noteQueryWrapper.orderByDesc(" create_time ");
+        IPage<BlogNote> page = blogNoteDao.selectPage(new Page<>(queryVO.getPageNum(), queryVO.getPageSize()), noteQueryWrapper);
         List<NoteVO> voList = page.getRecords().stream().map(NoteVO::new).collect(Collectors.toList());
         return new PageVO<>(page, voList);
     }

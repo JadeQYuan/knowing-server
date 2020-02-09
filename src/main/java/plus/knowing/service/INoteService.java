@@ -17,18 +17,19 @@ public interface INoteService {
     void addNote(NoteVO noteVO, UserVO userVO);
 
     /**
-     * 查询笔记列表
-     * @param noteVO
+     * 分页查询笔记
+     * @param queryVO
+     * @param userVO
      * @return
      */
-    List<NoteVO> listNotes(NoteVO noteVO);
+    PageVO<NoteVO> pagingListNotes(NoteQueryVO queryVO, UserVO userVO);
 
     /**
-     * 分页查询笔记
+     * 分页查询所有笔记
      * @param queryVO
      * @return
      */
-    PageVO<NoteVO> pagingListTags(NoteQueryVO queryVO);
+    PageVO<NoteVO> pagingAllList(NoteQueryVO queryVO);
 
     /**
      * 获取笔记

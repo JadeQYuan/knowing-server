@@ -34,22 +34,48 @@ public class SpecialService implements ISpecialService {
     }
 
     @Override
-    public List<SpecialVO> list(SpecialQueryVO queryVO) {
+    public List<SpecialVO> listMy(SpecialQueryVO queryVO, UserVO userVO) {
         QueryWrapper<BlogSpecial> specialWrapper = new QueryWrapper<>();
         if (StringUtils.hasText(queryVO.getName())) {
             specialWrapper.eq("name", queryVO.getName());
         }
+        specialWrapper.eq("create_user_id", userVO.getId());
+        specialWrapper.orderByDesc(" create_time ");
         List<BlogSpecial> specialList = blogSpecialDao.selectList(specialWrapper);
         return ConvertUtil.convert(specialList, SpecialVO.class);
     }
 
     @Override
-    public PageVO<SpecialVO> pagingList(SpecialQueryVO queryVO) {
+    public PageVO<SpecialVO> pagingPopularList(SpecialQueryVO queryVO) {
         QueryWrapper<BlogSpecial> specialWrapper = new QueryWrapper<>();
         if (StringUtils.hasText(queryVO.getName())) {
             specialWrapper.eq("name", queryVO.getName());
         }
         specialWrapper.eq("shared", true);
+        specialWrapper.orderByDesc(" create_time ");
+        IPage<BlogSpecial> page = blogSpecialDao.selectPage(new Page<>(queryVO.getPageNum(), queryVO.getPageSize()), specialWrapper);
+        return PageVO.build(page, SpecialVO.class);
+    }
+
+    @Override
+    public PageVO<SpecialVO> pagingMyList(SpecialQueryVO queryVO, UserVO userVO) {
+        QueryWrapper<BlogSpecial> specialWrapper = new QueryWrapper<>();
+        if (StringUtils.hasText(queryVO.getName())) {
+            specialWrapper.eq("name", queryVO.getName());
+        }
+        specialWrapper.eq("create_user_id", userVO.getId());
+        specialWrapper.orderByDesc(" create_time ");
+        IPage<BlogSpecial> page = blogSpecialDao.selectPage(new Page<>(queryVO.getPageNum(), queryVO.getPageSize()), specialWrapper);
+        return PageVO.build(page, SpecialVO.class);
+    }
+
+    @Override
+    public PageVO<SpecialVO> pagingAllList(SpecialQueryVO queryVO) {
+        QueryWrapper<BlogSpecial> specialWrapper = new QueryWrapper<>();
+        if (StringUtils.hasText(queryVO.getName())) {
+            specialWrapper.eq("name", queryVO.getName());
+        }
+        specialWrapper.orderByDesc(" create_time ");
         IPage<BlogSpecial> page = blogSpecialDao.selectPage(new Page<>(queryVO.getPageNum(), queryVO.getPageSize()), specialWrapper);
         return PageVO.build(page, SpecialVO.class);
     }

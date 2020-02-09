@@ -8,6 +8,7 @@ import lombok.Setter;
 import plus.knowing.entity.BlogNote;
 
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -23,9 +24,12 @@ public class NoteVO {
     @NotBlank
     private String content;
 
+    private LocalDateTime createTime;
+
     public NoteVO(BlogNote note) {
         this.id = note.getId();
         this.title = note.getTitle();
         this.content = note.getContent();
+        this.createTime = note.getCreateTime();
     }
 }

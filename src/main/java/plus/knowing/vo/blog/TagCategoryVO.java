@@ -4,15 +4,16 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.Setter;
-import plus.knowing.entity.BlogTag;
+import plus.knowing.entity.BlogTagCategory;
 
 import javax.validation.constraints.NotBlank;
 
 @Getter
 @Setter
 @NoArgsConstructor
-public class TagVO {
+public class TagCategoryVO {
 
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
@@ -20,16 +21,12 @@ public class TagVO {
     @NotBlank
     private String name;
 
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long categoryId;
+    @NonNull
+    private Boolean shared;
 
-    @NotBlank
-    private String intro;
-
-    public TagVO(BlogTag tag) {
-        this.id = tag.getId();
-        this.name = tag.getName();
-        this.categoryId = tag.getCategoryId();
-        this.intro = tag.getIntro();
+    public TagCategoryVO(BlogTagCategory blogTagCategory) {
+        this.id = blogTagCategory.getId();
+        this.name = blogTagCategory.getName();
+        this.shared = blogTagCategory.getShared();
     }
 }
