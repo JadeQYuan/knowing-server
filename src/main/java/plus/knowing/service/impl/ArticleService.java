@@ -58,20 +58,21 @@ public class ArticleService implements IArticleService {
     }
 
     @Override
-    public List<ArticleVO> listArticles(ArticleVO articleVO) {
+    public PageVO<ArticleVO> listAllArticles(ArticleQueryVO queryVO) {
         QueryWrapper<BlogArticle> articleQueryWrapper = new QueryWrapper<>();
         articleQueryWrapper.orderByDesc(" create_time ");
-        if (StringUtils.hasText(articleVO.getTitle())) {
-            articleQueryWrapper.like("title", articleVO.getTitle());
-        }
-        List<BlogArticle> articleList = blogArticleDao.selectList(articleQueryWrapper);
-        List<ArticleVO> articleVOList = articleList.stream().map(ArticleVO::new).collect(Collectors.toList());
-        articleVOList.forEach(vo -> {
+        IPage<BlogArticle> page = blogArticleDao.selectPage(new Page<>(queryVO.getPageNum(), queryVO.getPageSize()), articleQueryWrapper);
+        List<ArticleVO> voList = page.getRecords().stream().map(ArticleVO::new).collect(Collectors.toList());
+        voList.forEach(vo -> {
             List<BlogArticleTags> articleTagsList = blogArticleTagsDao.selectList(new QueryWrapper<BlogArticleTags>().eq("article_id", vo.getId()));
             List<TagVO> tags = articleTagsList.stream().map(articleTags -> iTagService.get(articleTags.getTagId())).collect(Collectors.toList());
             vo.setTags(tags);
+            if (Objects.nonNull(vo.getSpecialId())) {
+                SpecialVO specialVO = iSpecialService.get(vo.getSpecialId());
+                vo.setSpecialName(specialVO.getName());
+            }
         });
-        return articleVOList;
+        return new PageVO<>(page, voList);
     }
 
     @Override
@@ -93,11 +94,13 @@ public class ArticleService implements IArticleService {
     }
 
     @Override
-    public PageVO<ArticleVO> pagingListArticles(ArticleQueryVO queryVO) {
+    public PageVO<ArticleVO> pagingListMyArticles(ArticleQueryVO queryVO, UserVO userVO) {
         QueryWrapper<BlogArticle> articleQueryWrapper = new QueryWrapper<>();
         if (StringUtils.hasText(queryVO.getTitle())) {
             articleQueryWrapper.like("title", queryVO.getTitle());
         }
+        articleQueryWrapper.eq("create_user_id", userVO.getId());
+        articleQueryWrapper.orderByDesc(" create_time ");
         IPage<BlogArticle> page = blogArticleDao.selectPage(new Page<>(queryVO.getPageNum(), queryVO.getPageSize()), articleQueryWrapper);
         List<ArticleVO> voList = page.getRecords().stream().map(ArticleVO::new).collect(Collectors.toList());
         voList.forEach(vo -> {

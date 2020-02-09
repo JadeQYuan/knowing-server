@@ -18,11 +18,11 @@ public interface IArticleService {
     void addArticle(ArticleVO articleVO, UserVO userVO);
 
     /**
-     * 查询文章列表
-     * @param articleVO
+     * 查询所有文章列表
+     * @param queryVO
      * @return
      */
-    List<ArticleVO> listArticles(ArticleVO articleVO);
+    PageVO<ArticleVO> listAllArticles(ArticleQueryVO queryVO);
 
     /**
      * 分页查询最新文章
@@ -31,11 +31,12 @@ public interface IArticleService {
     PageVO<ArticleVO> pagingNewestArticles(PageQueryVO queryVO);
 
     /**
-     * 分页查询笔记
+     * 分页查询我的文章
      * @param queryVO
+     * @param userVO
      * @return
      */
-    PageVO<ArticleVO> pagingListArticles(ArticleQueryVO queryVO);
+    PageVO<ArticleVO> pagingListMyArticles(ArticleQueryVO queryVO, UserVO userVO);
 
     /**
      * 获取文章

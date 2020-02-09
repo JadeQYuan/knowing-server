@@ -12,8 +12,6 @@ import plus.knowing.vo.generic.PageQueryVO;
 import plus.knowing.vo.generic.PageVO;
 import plus.knowing.vo.sys.UserVO;
 
-import java.util.List;
-
 @RestController
 @RequestMapping(path = "/articles")
 public class ArticleController {
@@ -27,9 +25,10 @@ public class ArticleController {
         iArticleService.addArticle(articleVO, user);
     }
 
-    @GetMapping(path = "")
-    public List<ArticleVO> listArticles(ArticleVO articleVO) {
-        return iArticleService.listArticles(articleVO);
+    @Role(value = RoleEnum.Admin)
+    @GetMapping(path = "/all/paging")
+    public PageVO<ArticleVO> listAllArticles(ArticleQueryVO articleVO) {
+        return iArticleService.listAllArticles(articleVO);
     }
 
     @GetMapping(path = "/newest/paging")
@@ -37,9 +36,10 @@ public class ArticleController {
         return iArticleService.pagingNewestArticles(queryVO);
     }
 
-    @GetMapping(path = "/paging")
-    public PageVO<ArticleVO> pagingListArticles(ArticleQueryVO queryVO) {
-        return iArticleService.pagingListArticles(queryVO);
+    @Role(value = RoleEnum.Author)
+    @GetMapping(path = "/my/paging")
+    public PageVO<ArticleVO> pagingListMyArticles(ArticleQueryVO queryVO, @RequestAttribute UserVO user) {
+        return iArticleService.pagingListMyArticles(queryVO, user);
     }
 
     @GetMapping(path = "/{id}")

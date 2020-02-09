@@ -50,6 +50,12 @@ public class SpecialController {
         return iSpecialService.pagingMyList(queryVO, user);
     }
 
+    @GetMapping(path = "/all/paging")
+    @Role(value = RoleEnum.Admin)
+    public PageVO<SpecialVO> pagingAllList(SpecialQueryVO queryVO) {
+        return iSpecialService.pagingAllList(queryVO);
+    }
+
     @GetMapping(path = "/{id}")
     public SpecialVO get(@PathVariable Long id) {
         return iSpecialService.get(id);

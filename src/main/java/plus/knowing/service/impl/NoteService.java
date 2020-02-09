@@ -36,12 +36,25 @@ public class NoteService implements INoteService {
     }
 
     @Override
-    public PageVO<NoteVO> pagingListTags(NoteQueryVO queryVO, UserVO userVO) {
+    public PageVO<NoteVO> pagingListNotes(NoteQueryVO queryVO, UserVO userVO) {
         QueryWrapper<BlogNote> noteQueryWrapper = new QueryWrapper<>();
         if (StringUtils.hasText(queryVO.getTitle())) {
             noteQueryWrapper.like("title", queryVO.getTitle());
         }
         noteQueryWrapper.eq("create_user_id", userVO.getId());
+        noteQueryWrapper.orderByDesc(" create_time ");
+        IPage<BlogNote> page = blogNoteDao.selectPage(new Page<>(queryVO.getPageNum(), queryVO.getPageSize()), noteQueryWrapper);
+        List<NoteVO> voList = page.getRecords().stream().map(NoteVO::new).collect(Collectors.toList());
+        return new PageVO<>(page, voList);
+    }
+
+    @Override
+    public PageVO<NoteVO> pagingAllList(NoteQueryVO queryVO) {
+        QueryWrapper<BlogNote> noteQueryWrapper = new QueryWrapper<>();
+        if (StringUtils.hasText(queryVO.getTitle())) {
+            noteQueryWrapper.like("title", queryVO.getTitle());
+        }
+        noteQueryWrapper.orderByDesc(" create_time ");
         IPage<BlogNote> page = blogNoteDao.selectPage(new Page<>(queryVO.getPageNum(), queryVO.getPageSize()), noteQueryWrapper);
         List<NoteVO> voList = page.getRecords().stream().map(NoteVO::new).collect(Collectors.toList());
         return new PageVO<>(page, voList);

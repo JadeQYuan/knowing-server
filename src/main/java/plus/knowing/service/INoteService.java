@@ -22,7 +22,14 @@ public interface INoteService {
      * @param userVO
      * @return
      */
-    PageVO<NoteVO> pagingListTags(NoteQueryVO queryVO, UserVO userVO);
+    PageVO<NoteVO> pagingListNotes(NoteQueryVO queryVO, UserVO userVO);
+
+    /**
+     * 分页查询所有笔记
+     * @param queryVO
+     * @return
+     */
+    PageVO<NoteVO> pagingAllList(NoteQueryVO queryVO);
 
     /**
      * 获取笔记

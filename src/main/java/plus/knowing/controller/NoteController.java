@@ -11,8 +11,6 @@ import plus.knowing.vo.blog.NoteVO;
 import plus.knowing.vo.generic.PageVO;
 import plus.knowing.vo.sys.UserVO;
 
-import java.util.List;
-
 @RestController
 @RequestMapping(path = "/notes")
 public class NoteController {
@@ -29,7 +27,13 @@ public class NoteController {
     @Role(value = {RoleEnum.Author})
     @GetMapping(path = "/my/paging")
     public PageVO<NoteVO> pagingListTags(NoteQueryVO queryVO, @RequestAttribute UserVO user) {
-        return iNoteService.pagingListTags(queryVO, user);
+        return iNoteService.pagingListNotes(queryVO, user);
+    }
+
+    @Role(value = {RoleEnum.Admin})
+    @GetMapping(path = "/all/paging")
+    public PageVO<NoteVO> pagingAllList(NoteQueryVO queryVO) {
+        return iNoteService.pagingAllList(queryVO);
     }
 
     @Role(value = {RoleEnum.Author})

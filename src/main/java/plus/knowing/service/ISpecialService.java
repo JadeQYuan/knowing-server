@@ -40,6 +40,13 @@ public interface ISpecialService {
     PageVO<SpecialVO> pagingMyList(SpecialQueryVO queryVO, UserVO userVO);
 
     /**
+     * 分页查询所有专栏
+     * @param queryVO
+     * @return
+     */
+    PageVO<SpecialVO> pagingAllList(SpecialQueryVO queryVO);
+
+    /**
      * 获取专栏
      * @param id
      * @return
