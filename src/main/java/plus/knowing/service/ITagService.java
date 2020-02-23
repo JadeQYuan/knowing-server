@@ -76,4 +76,10 @@ public interface ITagService {
      * @return
      */
     List<TreeNodeVO<?>> listTagTree();
+
+    /**
+     * 查询标签列表
+     * @return
+     */
+    List<TreeNodeVO<?>> listAllTagTree();
 }

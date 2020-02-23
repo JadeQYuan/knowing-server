@@ -52,4 +52,14 @@ public class ArticleController {
     public void update(@PathVariable Long id, @RequestBody @Validated ArticleVO articleVO, @RequestAttribute UserVO user) {
         iArticleService.update(id, articleVO, user);
     }
+
+    @GetMapping(path = "/underSpecial")
+    public PageVO<ArticleVO> pagingArticlesUnderSpecial(ArticleQueryVO queryVO) {
+        return iArticleService.pagingArticlesUnderSpecial(queryVO);
+    }
+
+    @GetMapping(path = "/underTag")
+    public PageVO<ArticleVO> pagingArticlesUnderTag(ArticleQueryVO queryVO) {
+        return iArticleService.pagingArticlesUnderTag(queryVO);
+    }
 }

@@ -71,9 +71,14 @@ public class TagController {
         iTagService.update(id, tagVO);
     }
 
-    @Role(value = RoleEnum.Author)
     @GetMapping(path = "/tree")
     public List<TreeNodeVO<?>> listTagTree() {
         return iTagService.listTagTree();
+    }
+
+    @Role(value = RoleEnum.Admin)
+    @GetMapping(path = "/all/tree")
+    public List<TreeNodeVO<?>> listAllTagTree() {
+        return iTagService.listAllTagTree();
     }
 }

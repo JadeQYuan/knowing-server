@@ -8,6 +8,11 @@ spring:
     default-property-inclusion: non_null
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
 qq:
   app—id: 101845020
   app-key: 5713ac1ba160468e9f1c0da1fdff2ea7

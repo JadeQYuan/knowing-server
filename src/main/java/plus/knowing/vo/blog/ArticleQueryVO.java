@@ -9,4 +9,8 @@ import plus.knowing.vo.generic.PageQueryVO;
 public class ArticleQueryVO extends PageQueryVO {
 
     private String title;
+
+    private Long specialId;
+
+    private Long tagId;
 }

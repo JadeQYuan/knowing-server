@@ -52,4 +52,18 @@ public interface IArticleService {
      * @param userVO
      */
     void update(Long id, ArticleVO articleVO, UserVO userVO);
+
+    /**
+     * 分页查询专栏下的文章
+     * @param queryVO
+     * @return
+     */
+    PageVO<ArticleVO> pagingArticlesUnderSpecial(ArticleQueryVO queryVO);
+
+    /**
+     * 分页查询标签下的文章
+     * @param queryVO
+     * @return
+     */
+    PageVO<ArticleVO> pagingArticlesUnderTag(ArticleQueryVO queryVO);
 }

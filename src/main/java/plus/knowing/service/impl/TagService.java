@@ -117,17 +117,35 @@ public class TagService implements ITagService {
 
     @Override
     public List<TreeNodeVO<?>> listTagTree() {
-        List<TreeNodeVO<?>> tree = new ArrayList<>();
+        QueryWrapper<BlogTagCategory> categoryQueryWrapper = new QueryWrapper<>();
+        categoryQueryWrapper.eq("shared", true);
+        List<BlogTagCategory> blogTagCategories = blogTagCategoryDao.selectList(categoryQueryWrapper);
+        QueryWrapper<BlogTag> tagQueryWrapper = new QueryWrapper<>();
+        tagQueryWrapper.in("category_id", blogTagCategories.parallelStream()
+                .map(BlogTagCategory::getId).collect(Collectors.toList()));
+        tagQueryWrapper.or();
+        tagQueryWrapper.eq("category_id", 0);
+        List<BlogTag> blogTags = blogTagDao.selectList(tagQueryWrapper);
+        return buildTree(blogTagCategories, blogTags);
+    }
+
+    @Override
+    public List<TreeNodeVO<?>> listAllTagTree() {
         List<BlogTagCategory> blogTagCategories = blogTagCategoryDao.selectList(null);
         List<BlogTag> blogTags = blogTagDao.selectList(null);
+        return buildTree(blogTagCategories, blogTags);
+    }
+
+    private List<TreeNodeVO<?>> buildTree(List<BlogTagCategory> blogTagCategories, List<BlogTag> blogTags) {
+        List<TreeNodeVO<?>> tree = new ArrayList<>();
         Map<Long, List<BlogTag>> listMap = blogTags.parallelStream().collect(Collectors.groupingBy(BlogTag::getCategoryId));
         blogTagCategories.forEach(blogTagCategory -> {
-            TreeNodeVO<BlogTagCategory> categoryNode = new TreeNodeVO<>(blogTagCategory.getId().toString(),
+            TreeNodeVO<BlogTagCategory> categoryNode = new TreeNodeVO<>(blogTagCategory.getId().toString(), blogTagCategory.getName(),
                     TreeNodeVO.TypeEnum.TagCategory, blogTagCategory);
             List<BlogTag> tagList = listMap.get(blogTagCategory.getId());
             if (!CollectionUtils.isEmpty(tagList)) {
                 tagList.forEach(tag -> {
-                    TreeNodeVO<BlogTag> tagNode = new TreeNodeVO<>(tag.getId().toString(), TreeNodeVO.TypeEnum.Tag, tag);
+                    TreeNodeVO<BlogTag> tagNode = new TreeNodeVO<>(tag.getId().toString(), tag.getName(), TreeNodeVO.TypeEnum.Tag, tag);
                     categoryNode.addChild(tagNode);
                 });
             }
@@ -135,9 +153,9 @@ public class TagService implements ITagService {
         });
         List<BlogTag> tagList = listMap.get(0L);
         if (!CollectionUtils.isEmpty(tagList)) {
-            TreeNodeVO<String> categoryNode = new TreeNodeVO<>("", TreeNodeVO.TypeEnum.TagCategory, "未分类");
+            TreeNodeVO<String> categoryNode = new TreeNodeVO<>("", "未分类", TreeNodeVO.TypeEnum.TagCategory, null);
             tagList.forEach(tag -> {
-                TreeNodeVO<BlogTag> tagNode = new TreeNodeVO<>(tag.getId().toString(), TreeNodeVO.TypeEnum.Tag, tag);
+                TreeNodeVO<BlogTag> tagNode = new TreeNodeVO<>(tag.getId().toString(), tag.getName(), TreeNodeVO.TypeEnum.Tag, tag);
                 categoryNode.addChild(tagNode);
             });
             tree.add(categoryNode);

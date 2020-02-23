@@ -13,14 +13,17 @@ public class TreeNodeVO<T> {
 
     private String id;
 
+    private String name;
+
     private TypeEnum type;
 
     private T data;
 
     private List<TreeNodeVO<?>> children;
 
-    public TreeNodeVO(String id, TypeEnum type, T data) {
+    public TreeNodeVO(String id, String name, TypeEnum type, T data) {
         this.id = id;
+        this.name = name;
         this.type = type;
         this.data = data;
     }

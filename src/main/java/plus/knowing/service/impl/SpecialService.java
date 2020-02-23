@@ -37,7 +37,7 @@ public class SpecialService implements ISpecialService {
     public List<SpecialVO> listMy(SpecialQueryVO queryVO, UserVO userVO) {
         QueryWrapper<BlogSpecial> specialWrapper = new QueryWrapper<>();
         if (StringUtils.hasText(queryVO.getName())) {
-            specialWrapper.eq("name", queryVO.getName());
+            specialWrapper.like("name", queryVO.getName());
         }
         specialWrapper.eq("create_user_id", userVO.getId());
         specialWrapper.orderByDesc(" create_time ");
@@ -49,7 +49,7 @@ public class SpecialService implements ISpecialService {
     public PageVO<SpecialVO> pagingPopularList(SpecialQueryVO queryVO) {
         QueryWrapper<BlogSpecial> specialWrapper = new QueryWrapper<>();
         if (StringUtils.hasText(queryVO.getName())) {
-            specialWrapper.eq("name", queryVO.getName());
+            specialWrapper.like("name", queryVO.getName());
         }
         specialWrapper.eq("shared", true);
         specialWrapper.orderByDesc(" create_time ");
@@ -61,7 +61,7 @@ public class SpecialService implements ISpecialService {
     public PageVO<SpecialVO> pagingMyList(SpecialQueryVO queryVO, UserVO userVO) {
         QueryWrapper<BlogSpecial> specialWrapper = new QueryWrapper<>();
         if (StringUtils.hasText(queryVO.getName())) {
-            specialWrapper.eq("name", queryVO.getName());
+            specialWrapper.like("name", queryVO.getName());
         }
         specialWrapper.eq("create_user_id", userVO.getId());
         specialWrapper.orderByDesc(" create_time ");
@@ -73,7 +73,7 @@ public class SpecialService implements ISpecialService {
     public PageVO<SpecialVO> pagingAllList(SpecialQueryVO queryVO) {
         QueryWrapper<BlogSpecial> specialWrapper = new QueryWrapper<>();
         if (StringUtils.hasText(queryVO.getName())) {
-            specialWrapper.eq("name", queryVO.getName());
+            specialWrapper.like("name", queryVO.getName());
         }
         specialWrapper.orderByDesc(" create_time ");
         IPage<BlogSpecial> page = blogSpecialDao.selectPage(new Page<>(queryVO.getPageNum(), queryVO.getPageSize()), specialWrapper);
