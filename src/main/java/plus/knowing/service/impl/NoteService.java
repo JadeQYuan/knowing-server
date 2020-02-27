@@ -63,7 +63,7 @@ public class NoteService implements INoteService {
     @Override
     public NoteVO get(Long id) {
         BlogNote note = blogNoteDao.selectById(id);
-        return new NoteVO(note);
+        return new NoteVO(note, true);
     }
 
     @Override

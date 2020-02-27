@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import plus.knowing.entity.BlogNote;
+import plus.knowing.util.ConvertUtil;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
@@ -27,9 +28,17 @@ public class NoteVO {
     private LocalDateTime createTime;
 
     public NoteVO(BlogNote note) {
+        this(note, false);
+    }
+
+    public NoteVO(BlogNote note, boolean full) {
         this.id = note.getId();
         this.title = note.getTitle();
-        this.content = note.getContent();
+        if (full) {
+            this.content = note.getContent();
+        } else {
+            this.content = ConvertUtil.simpleMarkdown(note.getContent());
+        }
         this.createTime = note.getCreateTime();
     }
 }

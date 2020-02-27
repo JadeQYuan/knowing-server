@@ -120,7 +120,7 @@ public class ArticleService implements IArticleService {
     @Override
     public ArticleVO get(Long id) {
         BlogArticle article = blogArticleDao.selectById(id);
-        ArticleVO articleVO = new ArticleVO(article);
+        ArticleVO articleVO = new ArticleVO(article, true);
         List<BlogArticleTags> articleTagsList = blogArticleTagsDao.selectList(new QueryWrapper<BlogArticleTags>().eq("article_id", id));
         List<TagVO> tags = articleTagsList.stream().map(articleTags -> iTagService.get(articleTags.getTagId())).collect(Collectors.toList());
         articleVO.setTags(tags);
