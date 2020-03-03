@@ -1,7 +1,5 @@
 package plus.knowing.vo.blog;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,13 +12,11 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 public class TagVO {
 
-    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
     @NotBlank
     private String name;
 
-    @JsonSerialize(using = ToStringSerializer.class)
     private Long categoryId;
 
     @NotBlank

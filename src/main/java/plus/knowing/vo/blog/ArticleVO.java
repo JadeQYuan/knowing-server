@@ -1,7 +1,5 @@
 package plus.knowing.vo.blog;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -19,7 +17,6 @@ import java.util.List;
 @NoArgsConstructor
 public class ArticleVO {
 
-    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
     @NotBlank

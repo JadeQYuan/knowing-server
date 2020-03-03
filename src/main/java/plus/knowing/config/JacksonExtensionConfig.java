@@ -1,5 +1,6 @@
 package plus.knowing.config;
 
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
@@ -16,7 +17,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 @Configuration
-public class DateFormatConfig {
+public class JacksonExtensionConfig {
 
     /** 默认日期时间格式 */
     private static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
@@ -34,6 +35,7 @@ public class DateFormatConfig {
                         new LocalDateSerializer(DateTimeFormatter.ofPattern(DEFAULT_DATE_FORMAT)))
                 .serializerByType(LocalTime.class,
                         new LocalTimeSerializer(DateTimeFormatter.ofPattern(DEFAULT_TIME_FORMAT)))
+                .serializerByType(Long.class, ToStringSerializer.instance)
                 .deserializerByType(LocalDateTime.class,
                         new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern(DEFAULT_DATE_TIME_FORMAT)))
                 .deserializerByType(LocalDate.class,
