@@ -14,8 +14,8 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 qq:
-  app—id: 101845020
-  app-key: 5713ac1ba160468e9f1c0da1fdff2ea7
+  app—id: 101861890
+  app-key: 8d11b80ad793f0e9b5807f43c0ebf85d
   redirect-uri: https://knowing.eicp.vip/auth
   scope: get_user_info
   authorize-url: https://graph.qq.com/oauth2.0/authorize?response_type=code&client_id=${qq.app—id}&redirect_uri=${qq.redirect-uri}&state=%s&scope=${qq.scope}
